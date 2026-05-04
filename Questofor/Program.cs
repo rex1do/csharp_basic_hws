@@ -1,12 +1,16 @@
 ﻿string name = "";
 bool running = true;
+List<string> tasks = new();
 
 string helpAnswer = "Вот список команд:\n" +
                     "/start - установить имя пользователя\n" +
                     "/help - информация о возможностях программы\n" +
                     "/info - информация о программе\n" +
                     "/echo - вывести введенный текст в консоль (только после установки имени)\n" +
-                    "/exit - выход из программы";
+                    "/addtask - добавить задачу в список\n" +
+                    "/showtasks - отобразить список задач\n" + 
+                    "/removetask - удалить задачу из списка\n" +
+                    "/exit - выход из программы"; 
 
 string infoAnswer = "Вот информация о приложении:\n" +
                     "Чат-бот Questofor\n" +
@@ -14,8 +18,7 @@ string infoAnswer = "Вот информация о приложении:\n" +
                     "Дата создания: 03.12.2025";
 
 Console.WriteLine("Добро пожаловать!\n" +
-                  "Список доступных команд: /start, /help, /info, /exit");
-
+                  "Список доступных команд: /start, /help, /info, /echo, /addtask, /showtasks, /removetask, /exit");
 
 while (running)
 {
@@ -60,6 +63,27 @@ while (running)
                 break;
             }
 
+        case "/addtask":
+            {
+                AddTask();
+
+                break;
+            }
+
+        case "/showtasks":
+            {
+                ShowTasks();
+
+                break;
+            }
+
+        case "/removetask":
+            {
+                RemoveTask();
+
+                break;
+            }
+
         case "/exit":
             {
                 Console.WriteLine($"{prefix}Всего хорошего! Осуществляется выход из программы");
@@ -90,8 +114,8 @@ void SetName()
             continue;
         }
 
-        name = newName;
-        Console.WriteLine($"Имя сохранено, {newName}.\n" +
+        name = newName.Trim();
+        Console.WriteLine($"Имя сохранено, {name}.\n" +
                            "Теперь для Вас доступна команда /echo");
         break;
     }
@@ -117,3 +141,67 @@ void PrintEcho(string input)
         Console.WriteLine(argument);
     }
 }
+
+void AddTask()
+{
+    Console.WriteLine("Пожалуйста, введите описание задачи:");
+    var description = Console.ReadLine();
+
+    if (string.IsNullOrWhiteSpace(description))
+    {
+        Console.WriteLine("Описание задачи не может быть пустым");
+        return;
+    }
+
+    description = description.Trim();
+    tasks.Add(description);
+    Console.WriteLine($"Задача \"{description}\" добавлена.");
+}
+
+void ShowTasks()
+{
+    if (tasks.Count == 0)
+    {
+        Console.WriteLine("Список Ваших задач пуст");
+
+        return;
+    }
+
+    for (int i = 0; i < tasks.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {tasks[i]}");
+    }
+}
+
+void RemoveTask()
+{
+    if (tasks.Count == 0)
+    {
+        Console.WriteLine("Список задач пуст - удалять нечего");
+        return;
+    }
+
+    Console.WriteLine("Вот ваш список задач:");
+    ShowTasks();
+
+    while (true)
+    {
+        Console.WriteLine("Введите номер задачи для удаления:");
+        var input = Console.ReadLine();
+
+        if (!int.TryParse(input, out var number) || number < 1 || number > tasks.Count)
+        {
+            Console.WriteLine("Некорректный номер задачи, попробуйте ещё раз");
+
+            continue;
+        }
+
+        var removed = tasks[number - 1];
+        tasks.RemoveAt(number - 1);
+
+        Console.WriteLine($"Задача \"{removed}\" удалена.");
+
+        return;
+    }
+}
+
