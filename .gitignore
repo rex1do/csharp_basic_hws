@@ -1,0 +1,7 @@
+﻿/.vs
+/*/bin/*
+/*/bin/Debug/*
+/*/bin/Debug/net9.0/*
+/*/obj/*
+/*/obj/Debug/net9.0/*
+/*/obj/Debug/*
