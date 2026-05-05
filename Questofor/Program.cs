@@ -158,31 +158,31 @@ void AddTask()
     Console.WriteLine($"Задача \"{description}\" добавлена.");
 }
 
-void ShowTasks()
+bool ShowTasks()
 {
     if (tasks.Count == 0)
     {
         Console.WriteLine("Список Ваших задач пуст");
 
-        return;
+        return false;
     }
+
+    Console.WriteLine("Вот Ваш список задач:");
 
     for (int i = 0; i < tasks.Count; i++)
     {
         Console.WriteLine($"{i + 1}. {tasks[i]}");
     }
+
+    return true;
 }
 
 void RemoveTask()
 {
-    if (tasks.Count == 0)
+    if (!ShowTasks())
     {
-        Console.WriteLine("Список задач пуст - удалять нечего");
         return;
     }
-
-    Console.WriteLine("Вот ваш список задач:");
-    ShowTasks();
 
     while (true)
     {
