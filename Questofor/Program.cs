@@ -4,6 +4,9 @@ List<string> tasks = new();
 int taskCountLimit = 0;
 int taskLength = 0;
 
+const int minTaskLimits = 1;
+const int maxTaskLimits = 100;
+
 string? prefix = "";
 string? input = "";
 string? name = "";
@@ -131,14 +134,14 @@ void SetTaskCountLimit()
 {
     Console.WriteLine("Введите максимально допустимое количество задач");
 
-    taskCountLimit = ParseAndValidateInt(Console.ReadLine(), 1, 100);
+    taskCountLimit = ParseAndValidateInt(Console.ReadLine(), minTaskLimits, maxTaskLimits);
 }
 
 void SetTaskLengthLimit()
 {
     Console.WriteLine("Введите максимально допустимую длину задачи");
 
-    taskLength = ParseAndValidateInt(Console.ReadLine(), 1, 100);
+    taskLength = ParseAndValidateInt(Console.ReadLine(), minTaskLimits, maxTaskLimits);
 }
 
 void ShowHelp()
